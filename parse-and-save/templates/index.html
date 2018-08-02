@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>News Feed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <h1 class="title">All latest footbal news with one API</h1>
+            <p class="subtitle is-5">Using Flask, MongoDB and bulma.</p>
+        </div>
+
+        <p class="is-size-5">Checking for updates on the news websites and adding them in db.</p>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-link">Check for updates</button>
+            </div>
+        </div>
+
+        <p class="is-size-5">There is a posibility of adding an update via link.</p>
+
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" style="width:500px;" placeholder="Paste link to add update to db">
+            </div>
+        </div>
+
+        <p class="is-size-5">View parsed data</p>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-primary">Fetch</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,6 +1,8 @@
 import json
 
 from flask import Flask
+from flask import render_template
+
 from pymongo import MongoClient
 
 
@@ -14,7 +16,8 @@ collection = db.news
 @app.route('/')
 def main():
     # need to render template
-    return str(collection.find_one())
+    # return str(collection.find_one())
+    return render_template('index.html')
  
 
 @app.route('/update')
