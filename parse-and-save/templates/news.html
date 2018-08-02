@@ -11,42 +11,49 @@
 </head>
 
 <body>
-
     <div class="container">
-    <div class="field">
-        <br>
-        <p class="is-size-5">Fetch by specific field</p>
-        <br>
-        <label class="label">Source:</label>
-        <div class="control" style="width: 400px;">
-            <input class="input" type="text" placeholder="Source" value="BBC">  
-        </div>
-        <br>
-        <label class="label">Date posted:</label>
-        <div class="control" style="width: 400px;">
-            <input class="input" type="text" placeholder="Date posted" value="02.08.2018">  
-        </div>
-        <br>
-        <label class="label">Title:</label>
-        <div class="control" style="width: 400px;">
-            <input class="input" type="text">  
-        </div>
-        <br>
-        <label class="label"></label>
-        <div class="control">
-            <button class="button is-primary">Fetch</button>
-        </div>
-    </div>
-    <br><br>
-    <div class="field">
-        <div class="control">
-            <button class="button is-danger">Fetch all</button>
-        </div>
-    </div>
+
+        <form action="/fetch" method="post">
+            <div class="field">
+                <br>
+                <p class="is-size-5">Fetch by specific field</p>
+                <br>
+                <label class="label">Source:</label>
+                <div class="control" style="width: 400px;">
+                    <input class="input" type="text" placeholder="Source" value="BBC">  
+                </div>
+                <br>
+                <label class="label">Date posted:</label>
+                <div class="control" style="width: 400px;">
+                    <input class="input" type="text" placeholder="Date posted" value="02.08.2018">  
+                </div>
+                <br>
+                <label class="label">Title:</label>
+                <div class="control" style="width: 400px;">
+                    <input class="input" type="text">  
+                </div>
+                <br>
+                <label class="label"></label>
+                <div class="control">
+                    <button class="button is-primary">Fetch</button>
+                </div>
+            </div>
+        </form>
+
+        <br><br>
+
+        <form action="/fetch" method="post">
+            <div class="field">
+                <div class="control">
+                    <button class="button is-danger">Fetch all</button>
+                </div>
+            </div>
+        </form>
+
+
+
 
     </div>
-
-
 </body>
 
 </html>
