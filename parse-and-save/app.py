@@ -27,7 +27,7 @@ def update():
 
 @app.route('/add')
 def add():
-    # post request on adding news via link or manually
+    # post request on adding news via link 
     return 'Hi'
 
 @app.route('/fetch')
