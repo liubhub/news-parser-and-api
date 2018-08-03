@@ -37,7 +37,7 @@ def get_new_articles_objecs(companies):
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                print(exc_type, '\n', fname, '\n', exc_tb.tb_lineno)
+                print(exc_type, '\n', fname, '\n', exc_tb.tb_lineno, '\n', exc_obj)
                 print('Continuing')
                 continue
         
@@ -58,7 +58,7 @@ def check_and_filter_updates(companies):
     
     new_articles_urls = [entry.url for entry in flatten(list(articles.values()))]
     
-    articles = {source: list(filter(lambda ar: ar.url in new_articles_urls, articles_list)) \
+    articles = {source: list(filter(lambda ar: ar.url in set(new_articles_urls)-set(current_urls), articles_list)) \
                 for source, articles_list in articles.items()}
 
     # articles_to_add = [entry for entry in articles \
@@ -91,7 +91,7 @@ def parse_and_add_updates_to_db(articles_to_add, collection):
             except Exception as e:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                print(exc_type, '\n', fname, '\n', exc_tb.tb_lineno)
+                print(exc_type, '\n', fname, '\n', exc_tb.tb_lineno, '\n', exc_obj)
                 continue
 
             entry.nlp()
