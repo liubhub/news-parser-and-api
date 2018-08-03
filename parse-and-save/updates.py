@@ -45,7 +45,11 @@ def get_new_articles_objecs(companies):
         
     return _articles
 
-def check_and_filter_updates(companies):
+def check_and_filter_updates():
+
+    with open('source.json') as data_file:
+        companies = json.load(data_file)
+
     entries = list(collection.find({}))
     current_urls = [entry['url'] for entry in entries]
     
@@ -70,10 +74,13 @@ def check_and_filter_updates(companies):
 
 def parse_and_add_updates_to_db(articles_to_add, collection):
     
-    count = 1
     data = []
 
+    n = flatten(list(articles_to_add.values()))
+
     for company, articles_list in articles_to_add.items():
+
+        count = 1
 
         if company == 'reddit' and count >= ARTICLES_LIMIT:
             print('Limit number of requests on {}. Sleep for 10s'.format(company))
@@ -83,8 +90,6 @@ def parse_and_add_updates_to_db(articles_to_add, collection):
         for index, entry in enumerate(articles_list):
 
             print('Parsing {} article from {}'.format(index+1, len(articles_list)))
-
-
             try:
                 entry.download()
                 entry.parse()
@@ -106,9 +111,18 @@ def parse_and_add_updates_to_db(articles_to_add, collection):
             article['keywords'] = ','.join(entry.keywords)
             article['url'] = entry.url
 
+            count = count + 1
+
             data.append(article)
 
-            count = count + 1
+            # if source is from website
+            # 
+            # try: 
+            #     collection.insert_one(article)
+            #     yield int(len(data)/n*100)
+            # except Exception as e:
+            #     return
+            
     
     try:
         collection.insert_many(data)
@@ -120,17 +134,15 @@ def parse_and_add_updates_to_db(articles_to_add, collection):
         return 
 
 if __name__ == "__main__":
-
-    with open('source.json') as data_file:
-        companies = json.load(data_file)
     
     client = pymongo.MongoClient('mongodb://localhost:27017/')
     db = client.news
     collection = db.news
 
-    articles = check_and_filter_updates(companies)
+    articles = check_and_filter_updates()
 
     if articles:
+        print(articles)
         print('Adding articles...')
         parse_and_add_updates_to_db(articles, collection)
     else:
