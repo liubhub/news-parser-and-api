@@ -1,3 +1,5 @@
 *.ipynb
 *.json
 parse-and-save/__pycache__/*
+parse-and-save/*.log
+parse-and-save/*.sh
