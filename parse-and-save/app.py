@@ -27,13 +27,17 @@ def main():
 @socketio.on('update')
 def progress():
 
-    
-
-
     emit('update_response',
-        {'data': 'Hello'}
+        {'message': 'Checking articles...'}
     )
-    
+    articles = check_and_filter_updates(collection)
+    emit('update_response',{
+        'articles': len(articles)
+    })
+
+    # parse_and_add_updates_to_db(articles)
+
+
 
     
 

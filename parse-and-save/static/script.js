@@ -8,7 +8,6 @@ $(document).ready(function () {
         console.log('Clicked')
 
 
-        $('.progress').fadeIn();
         
         var socket = io.connect('http://127.0.0.1:5000/');
 
@@ -16,24 +15,20 @@ $(document).ready(function () {
         socket.emit('update');
 
         socket.on('update_response', function(data){
-            console.log(data)
+            
+            if(data.articles && Number(data.articles) !== 0){
+                $('.progress-text-response').text(
+                    '<p>There are '+data.articles+' new articles.<br> Parsing...</p>'
+                );
+            }
         })
-        // var source = new EventSource("/update");
 
-        // source.onmessage = function (event) {
 
-        //     console.log(event.data)
+        socket.on('recieve_articles', function(data){
+            $('.progress').fadeIn();
+        })
 
-        //     $('.progress-bar').css('width', event.data + '%').attr('aria-valuenow', event.data);
-        //     $('.progress-bar-label').text(event.data + '%');
-
-        //     if (event.data == 100) {
-        //         source.close()
-        //     }
-        // }
-
+    
     })
-
-
 
 })

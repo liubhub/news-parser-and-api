@@ -48,7 +48,7 @@ def get_new_articles_objecs(companies):
 
 def check_and_filter_updates(collection):
 
-    with open('source.json') as data_file:
+    with open(os.path.abspath('source.json')) as data_file:
         companies = json.load(data_file)
 
     entries = list(collection.find({}))
@@ -58,7 +58,8 @@ def check_and_filter_updates(collection):
     
     # some stupid hacks to filter links for parsing
     
-    articles['cnn'] = [el for el in articles['cnn'] \
+    if 'cnn' in articles.keys():
+        articles['cnn'] = [el for el in articles['cnn'] \
                        if el.url.split('.')[1] == 'cnn' and 'football' in el.url.split('/')]
     
     new_articles_urls = [entry.url for entry in flatten(list(articles.values()))]
