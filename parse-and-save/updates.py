@@ -8,6 +8,8 @@ import newspaper
 
 import pymongo
 
+from datetime import datetime
+
 
 ARTICLES_LIMIT = 4
 flatten = lambda l: [item for sublist in l for item in sublist]
@@ -38,14 +40,13 @@ def get_new_articles_objecs(companies):
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 print(exc_type, '\n', fname, '\n', exc_tb.tb_lineno, '\n', exc_obj)
-                print('Continuing')
                 continue
         
         _articles[company] = articles
         
     return _articles
 
-def check_and_filter_updates():
+def check_and_filter_updates(collection):
 
     with open('source.json') as data_file:
         companies = json.load(data_file)
@@ -72,7 +73,7 @@ def check_and_filter_updates():
     return articles     
 
 
-def parse_and_add_updates_to_db(articles_to_add, collection):
+def parse_and_add_updates_to_db(articles_to_add, collection, external_request=False):
     
     data = []
 
@@ -115,7 +116,7 @@ def parse_and_add_updates_to_db(articles_to_add, collection):
 
             data.append(article)
 
-            # if source is from website
+            # if external_request:
             # 
             # try: 
             #     collection.insert_one(article)
@@ -123,7 +124,6 @@ def parse_and_add_updates_to_db(articles_to_add, collection):
             # except Exception as e:
             #     return
             
-    
     try:
         collection.insert_many(data)
         print('Articles were added')
@@ -134,16 +134,24 @@ def parse_and_add_updates_to_db(articles_to_add, collection):
         return 
 
 if __name__ == "__main__":
+
+    orig_stdout = sys.stdout
+    f = open('upd.log', 'w')
+    sys.stdout = f
+
+    print(str(datetime.now()))
     
     client = pymongo.MongoClient('mongodb://localhost:27017/')
     db = client.news
     collection = db.news
 
-    articles = check_and_filter_updates()
+    articles = check_and_filter_updates(collection)
 
     if articles:
-        print(articles)
         print('Adding articles...')
         parse_and_add_updates_to_db(articles, collection)
     else:
         print('Nothing to add.')
+
+    sys.stdout = orig_stdout
+    f.close()
