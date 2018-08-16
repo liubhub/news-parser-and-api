@@ -6,7 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible">
     <title>News Feed</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" />
+    <link rel="stylesheet" href={{ url_for('static', filename='style.css') }}>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+
 </head>
 
 <body>
@@ -21,9 +31,20 @@
 
         <div class="field">
             <div class="control">
-                <button class="button is-link">Check for updates</button>
+                <button class="button is-link check-updates" id="check-updates">Check for updates</button>
             </div>
         </div>
+
+
+        <div class="progress" style="width: 50%; margin: 50px;">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span class="progress-bar-label">0%</span>
+            </div>
+        </div>
+
+
+
+
 
         <p class="is-size-5">There is a posibility of adding an update via link.</p>
         
@@ -44,6 +65,9 @@
         </div>
 
     </div>
+
+
+    <script src={{ url_for('static', filename='script.js') }}></script>
 </body>
 
 </html>
