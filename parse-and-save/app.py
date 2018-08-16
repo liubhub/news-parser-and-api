@@ -1,6 +1,6 @@
 import json
-
-from flask import Flask
+import time
+from flask import Flask, Response
 from flask import render_template
 
 import pymongo
@@ -22,21 +22,40 @@ def main():
     return render_template('index.html')
  
 
+
 @app.route('/update')
-def update():
-    # Get request on updating database
-    articles = check_and_filter_updates()
-    if articles:
-        res = parse_and_add_updates_to_db(articles, collection)
-        if res:
-            return 'Updated'
-        else:
-            'Something went wrong'
-    else:
-        return 'Up to date'
+def progress():
+    print('Generating!!!')
+    def generate():
+        x = 0
+
+        while x <= 100:
+            print("data:" + str(x) + "\n\n")
+            yield "data:" + str(x) + "\n\n"
+            x = x + 10
+            time.sleep(0.5)
+
+    return Response(generate(), mimetype= 'text/event-stream')
 
 
-    return 'Hi'
+# @app.route('/update')
+# def update():
+#     # Get request on updating database
+
+#     articles = check_and_filter_updates(collection)
+#     if articles:
+#         res = parse_and_add_updates_to_db(articles, collection)
+#         if res:
+#             return 'Updated'
+#         else:
+#             'Something went wrong'
+#     else:
+#         return 'Up to date'
+    
+#     return 'Hi'
+
+
+
 
 @app.route('/add')
 def add():
@@ -51,4 +70,4 @@ def fetch():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
